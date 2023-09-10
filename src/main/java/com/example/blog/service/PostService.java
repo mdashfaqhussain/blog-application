@@ -1,13 +1,12 @@
 package com.example.blog.service;
 
 import com.example.blog.dto.PostDto;
-
-import java.util.List;
+import com.example.blog.dto.PostResponse;
 
 public interface PostService {
     PostDto createPost(PostDto postDto);
 
-    List<PostDto> getAllPosts(int pageNo, int pageSize);
+    PostResponse getAllPosts(int pageNo, int pageSize);
 
 
 
