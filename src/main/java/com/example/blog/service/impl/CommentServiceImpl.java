@@ -114,7 +114,6 @@ public class CommentServiceImpl implements CommentService {
         commentDto.setEmail(comment.getEmail());
         commentDto.setBody(comment.getBody());
         commentDto.setId(comment.getId());
-
         return commentDto;
     }
 
@@ -125,6 +124,7 @@ public class CommentServiceImpl implements CommentService {
         comment.setName(commentDto.getName());
         comment.setEmail(commentDto.getEmail());
         comment.setId(commentDto.getId());
+
         return comment;
     }
 }
