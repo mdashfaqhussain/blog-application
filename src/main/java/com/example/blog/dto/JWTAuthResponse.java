@@ -9,12 +9,8 @@ import lombok.Setter;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class RegisterDto {
-    private String name;
+public class JWTAuthResponse {
+    private String accessToken;
 
-    private String username;
-
-    private String email;
-
-    private String password;
+    private String tokenType = "Bearer";
 }

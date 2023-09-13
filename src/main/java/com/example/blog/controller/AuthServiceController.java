@@ -1,5 +1,6 @@
 package com.example.blog.controller;
 
+import com.example.blog.dto.JWTAuthResponse;
 import com.example.blog.dto.LoginDto;
 import com.example.blog.dto.RegisterDto;
 import com.example.blog.service.AuthService;
@@ -18,14 +19,17 @@ public class AuthServiceController {
     }
 
     @PostMapping(value = {"/login", "/signing"})
-    public ResponseEntity<String> login(@RequestBody LoginDto loginDto) {
-        String s = authService.logIn(loginDto);
-        return new ResponseEntity<>(s, HttpStatus.OK);
+    public ResponseEntity<JWTAuthResponse> login(@RequestBody LoginDto loginDto) {
+        String token = authService.logIn(loginDto);
+
+        JWTAuthResponse jwtAuthResponse = new JWTAuthResponse();
+        jwtAuthResponse.setAccessToken(token);
+        return new ResponseEntity<>(jwtAuthResponse, HttpStatus.OK);
 
     }
 
-    @PostMapping(value = {"/register", "/signup"})
-    public ResponseEntity<String> register(@PathVariable RegisterDto registerDto){
+    @PostMapping("/register")
+    public ResponseEntity<String> register(@RequestBody RegisterDto registerDto){
         String register = authService.register(registerDto);
         return new ResponseEntity<>(register, HttpStatus.CREATED);
     }

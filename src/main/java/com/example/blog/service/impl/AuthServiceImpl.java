@@ -7,9 +7,8 @@ import com.example.blog.model.Role;
 import com.example.blog.model.User;
 import com.example.blog.repository.RoleRepository;
 import com.example.blog.repository.UserRepository;
+import com.example.blog.security.JwtTokenProvider;
 import com.example.blog.service.AuthService;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -22,8 +21,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Service
-@AllArgsConstructor
-@NoArgsConstructor
+
 public class AuthServiceImpl implements AuthService {
 
     private AuthenticationManager authenticationManager;
@@ -33,8 +31,14 @@ public class AuthServiceImpl implements AuthService {
     private RoleRepository roleRepository;
 
     private PasswordEncoder passwordEncoder;
-    public AuthServiceImpl(AuthenticationManager authenticationManager) {
+
+    private JwtTokenProvider jwtTokenProvider;
+    public AuthServiceImpl(AuthenticationManager authenticationManager,UserRepository userRepository,RoleRepository roleRepository,PasswordEncoder passwordEncoder,JwtTokenProvider jwtTokenProvider) {
         this.authenticationManager = authenticationManager;
+        this.userRepository= userRepository;
+        this.passwordEncoder = passwordEncoder;
+        this.roleRepository = roleRepository;
+        this.jwtTokenProvider = jwtTokenProvider;
     }
 
     @Override
@@ -44,8 +48,9 @@ public class AuthServiceImpl implements AuthService {
         ));
 
         SecurityContextHolder.getContext().setAuthentication(authenticate);
+        String token = jwtTokenProvider.generateToken(authenticate);
 
-        return "Login successfully";
+        return token;
     }
 
     @Override
